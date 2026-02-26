@@ -6,7 +6,7 @@ namespace Raul3k\DisposableBlocker\Laravel\Cache;
 
 use BadMethodCallException;
 use Illuminate\Contracts\Cache\Repository;
-use Raul3k\BlockDisposable\Core\Cache\CacheInterface;
+use Raul3k\DisposableBlocker\Core\Cache\CacheInterface;
 
 /**
  * Laravel cache adapter for the disposable email checker.

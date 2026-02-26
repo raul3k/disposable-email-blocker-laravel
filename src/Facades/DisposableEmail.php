@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Raul3k\DisposableBlocker\Laravel\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Raul3k\BlockDisposable\Core\CheckResult;
-use Raul3k\BlockDisposable\Core\DomainInfo;
+use Raul3k\DisposableBlocker\Core\CheckResult;
+use Raul3k\DisposableBlocker\Core\DomainInfo;
 
 /**
  * @method static bool isDisposable(string $email)
@@ -20,7 +20,7 @@ use Raul3k\BlockDisposable\Core\DomainInfo;
  * @method static array<string, bool> isDisposableBatch(array $emails)
  * @method static string normalize(string $email)
  *
- * @see \Raul3k\BlockDisposable\Core\DisposableEmailChecker
+ * @see \Raul3k\DisposableBlocker\Core\DisposableEmailChecker
  */
 class DisposableEmail extends Facade
 {

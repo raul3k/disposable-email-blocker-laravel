@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Raul3k\DisposableBlocker\Laravel\Console;
 
 use Illuminate\Console\Command;
-use Raul3k\BlockDisposable\Core\Sources\SourceRegistry;
+use Raul3k\DisposableBlocker\Core\Sources\SourceRegistry;
 
 class ListSourcesCommand extends Command
 {
@@ -23,13 +23,18 @@ class ListSourcesCommand extends Command
      */
     protected $description = 'List available disposable domain sources';
 
+    public function __construct(
+        private readonly SourceRegistry $registry
+    ) {
+        parent::__construct();
+    }
+
     /**
      * Execute the console command.
      */
     public function handle(): int
     {
-        $registry = new SourceRegistry();
-        $sources = $registry->all();
+        $sources = $this->registry->all();
 
         $this->info('Available disposable domain sources:');
         $this->newLine();

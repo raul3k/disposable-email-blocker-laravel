@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Raul3k\DisposableBlocker\Laravel\Checkers;
 
+use Countable;
 use Illuminate\Support\Facades\DB;
-use Raul3k\BlockDisposable\Core\Checkers\CheckerInterface;
+use Raul3k\DisposableBlocker\Core\Checkers\CheckerInterface;
 
 /**
  * Database checker for disposable domains.
@@ -13,7 +14,7 @@ use Raul3k\BlockDisposable\Core\Checkers\CheckerInterface;
  * Uses Laravel's Query Builder to check if a domain exists
  * in the disposable domains table.
  */
-class DatabaseChecker implements CheckerInterface
+class DatabaseChecker implements CheckerInterface, Countable
 {
     public function __construct(
         private readonly string $table = 'disposable_domains',

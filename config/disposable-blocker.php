@@ -13,7 +13,7 @@ return [
     |
     | - 'file': Uses the bundled disposable domains list (recommended)
     | - 'database': Uses database table for domain lookup
-    | - 'pattern': Uses pattern matching only
+    | - 'pattern': Adds pattern matching (combines with use_bundled_list if enabled)
     | - 'chain': Combines multiple checkers
     |
     */
@@ -85,17 +85,5 @@ return [
     'database' => [
         'table' => 'disposable_domains',
         'connection' => null,
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Validation Messages
-    |--------------------------------------------------------------------------
-    |
-    | Default validation error messages for the NotDisposableEmail rule.
-    |
-    */
-    'messages' => [
-        'default' => 'Disposable email addresses are not allowed.',
     ],
 ];

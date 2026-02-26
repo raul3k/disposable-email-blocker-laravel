@@ -6,7 +6,7 @@ namespace Raul3k\DisposableBlocker\Laravel\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use Raul3k\BlockDisposable\Core\Sources\SourceRegistry;
+use Raul3k\DisposableBlocker\Core\Sources\SourceRegistry;
 use Throwable;
 
 class ImportDomainsCommand extends Command
@@ -28,6 +28,12 @@ class ImportDomainsCommand extends Command
      */
     protected $description = 'Import disposable domains from a specific source';
 
+    public function __construct(
+        private readonly SourceRegistry $registry
+    ) {
+        parent::__construct();
+    }
+
     /**
      * Execute the console command.
      */
@@ -43,20 +49,18 @@ class ImportDomainsCommand extends Command
         /** @var string|null $connection */
         $connection = config('disposable-blocker.database.connection');
 
-        $registry = new SourceRegistry();
-
-        if (!$registry->has($sourceName)) {
+        if (!$this->registry->has($sourceName)) {
             $this->error("Source '{$sourceName}' not found.");
             $this->newLine();
             $this->info('Available sources:');
-            foreach ($registry->list() as $name) {
+            foreach ($this->registry->list() as $name) {
                 $this->line("  - {$name}");
             }
 
             return self::FAILURE;
         }
 
-        $source = $registry->get($sourceName);
+        $source = $this->registry->get($sourceName);
 
         $this->info("Importing from <comment>{$sourceName}</comment>...");
 

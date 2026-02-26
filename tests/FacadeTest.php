@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Raul3k\DisposableBlocker\Laravel\Tests;
 
-use Raul3k\BlockDisposable\Core\CheckResult;
-use Raul3k\BlockDisposable\Core\DomainInfo;
+use Raul3k\DisposableBlocker\Core\CheckResult;
+use Raul3k\DisposableBlocker\Core\DomainInfo;
 use Raul3k\DisposableBlocker\Laravel\Facades\DisposableEmail;
 
 class FacadeTest extends TestCase

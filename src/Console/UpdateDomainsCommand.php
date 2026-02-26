@@ -6,7 +6,7 @@ namespace Raul3k\DisposableBlocker\Laravel\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use Raul3k\BlockDisposable\Core\Sources\SourceRegistry;
+use Raul3k\DisposableBlocker\Core\Sources\SourceRegistry;
 use Throwable;
 
 class UpdateDomainsCommand extends Command
@@ -27,6 +27,12 @@ class UpdateDomainsCommand extends Command
      */
     protected $description = 'Update disposable domains from configured sources';
 
+    public function __construct(
+        private readonly SourceRegistry $registry
+    ) {
+        parent::__construct();
+    }
+
     /**
      * Execute the console command.
      */
@@ -36,7 +42,6 @@ class UpdateDomainsCommand extends Command
         $table = config('disposable-blocker.database.table', 'disposable_domains');
         /** @var string|null $connection */
         $connection = config('disposable-blocker.database.connection');
-        $registry = new SourceRegistry();
 
         /** @var string|null $sourceOption */
         $sourceOption = $this->option('source');
@@ -45,7 +50,7 @@ class UpdateDomainsCommand extends Command
         if ($sourceOption !== null) {
             $sources = [$sourceOption];
         } else {
-            $sources = $registry->list();
+            $sources = $this->registry->list();
         }
 
         $this->info('Updating disposable domains...');
@@ -54,12 +59,12 @@ class UpdateDomainsCommand extends Command
         $totalImported = 0;
 
         foreach ($sources as $name) {
-            if (!$registry->has($name)) {
+            if (!$this->registry->has($name)) {
                 $this->error("Source '{$name}' not found.");
                 continue;
             }
 
-            $source = $registry->get($name);
+            $source = $this->registry->get($name);
             $this->line("  Fetching from <info>{$name}</info>...");
 
             try {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Raul3k\DisposableBlocker\Laravel\Tests;
 
-use Raul3k\BlockDisposable\Core\DisposableEmailChecker;
+use Raul3k\DisposableBlocker\Core\DisposableEmailChecker;
 
 class ServiceProviderTest extends TestCase
 {

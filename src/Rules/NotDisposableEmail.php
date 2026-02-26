@@ -6,7 +6,7 @@ namespace Raul3k\DisposableBlocker\Laravel\Rules;
 
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
-use Raul3k\BlockDisposable\Core\DisposableEmailChecker;
+use Raul3k\DisposableBlocker\Core\DisposableEmailChecker;
 
 /**
  * Validation rule that rejects disposable email addresses.
@@ -41,10 +41,7 @@ class NotDisposableEmail implements ValidationRule
         $checker = app('disposable-email');
 
         if ($checker->isDisposableSafe($value)) {
-            $message = $this->message
-                ?? config('disposable-blocker.messages.default', 'Disposable email addresses are not allowed.');
-
-            $fail($message);
+            $fail($this->message ?? 'disposable-blocker::validation.not_disposable_email');
         }
     }
 }

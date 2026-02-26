@@ -141,7 +141,6 @@ return [
     'database' => [
         'table' => 'disposable_domains',
         'connection' => null,
-        'model' => null,
     ],
 
     // Validation messages
