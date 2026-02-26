@@ -6,11 +6,11 @@ namespace Raul3k\DisposableBlocker\Laravel\Tests;
 
 use Illuminate\Support\Facades\DB;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
-use Raul3k\DisposableBlocker\Laravel\Checkers\EloquentChecker;
+use Raul3k\DisposableBlocker\Laravel\Checkers\DatabaseChecker;
 use Raul3k\DisposableBlocker\Laravel\Models\DisposableDomain;
 
 #[RequiresPhpExtension('pdo_sqlite')]
-class EloquentCheckerTest extends TestCase
+class DatabaseCheckerTest extends TestCase
 {
     protected function setUp(): void
     {
@@ -38,7 +38,7 @@ class EloquentCheckerTest extends TestCase
 
     public function testIsDomainDisposableReturnsFalseWhenTableIsEmpty(): void
     {
-        $checker = new EloquentChecker('disposable_domains');
+        $checker = new DatabaseChecker('disposable_domains');
 
         $this->assertFalse($checker->isDomainDisposable('test.com'));
     }
@@ -50,7 +50,7 @@ class EloquentCheckerTest extends TestCase
             'source' => 'test',
         ]);
 
-        $checker = new EloquentChecker('disposable_domains');
+        $checker = new DatabaseChecker('disposable_domains');
 
         $this->assertTrue($checker->isDomainDisposable('disposable.com'));
     }
@@ -62,7 +62,7 @@ class EloquentCheckerTest extends TestCase
             'source' => 'test',
         ]);
 
-        $checker = new EloquentChecker('disposable_domains');
+        $checker = new DatabaseChecker('disposable_domains');
 
         $this->assertFalse($checker->isDomainDisposable('gmail.com'));
     }
@@ -73,7 +73,7 @@ class EloquentCheckerTest extends TestCase
         DisposableDomain::create(['domain' => 'domain2.com', 'source' => 'test']);
         DisposableDomain::create(['domain' => 'domain3.com', 'source' => 'test']);
 
-        $checker = new EloquentChecker('disposable_domains');
+        $checker = new DatabaseChecker('disposable_domains');
         $domains = $checker->getAllDomains();
 
         $this->assertCount(3, $domains);
@@ -87,14 +87,14 @@ class EloquentCheckerTest extends TestCase
         DisposableDomain::create(['domain' => 'domain1.com', 'source' => 'test']);
         DisposableDomain::create(['domain' => 'domain2.com', 'source' => 'test']);
 
-        $checker = new EloquentChecker('disposable_domains');
+        $checker = new DatabaseChecker('disposable_domains');
 
         $this->assertEquals(2, $checker->count());
     }
 
     public function testCountReturnsZeroWhenTableIsEmpty(): void
     {
-        $checker = new EloquentChecker('disposable_domains');
+        $checker = new DatabaseChecker('disposable_domains');
 
         $this->assertEquals(0, $checker->count());
     }

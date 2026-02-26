@@ -80,13 +80,11 @@ return [
     |--------------------------------------------------------------------------
     |
     | Configure database settings when using the 'database' checker.
-    | You can specify a custom model to use instead of the default one.
     |
     */
     'database' => [
         'table' => 'disposable_domains',
-        'connection' => null, // null = default connection
-        'model' => null, // null = use default model
+        'connection' => null,
     ],
 
     /*

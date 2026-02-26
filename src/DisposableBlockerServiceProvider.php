@@ -9,7 +9,7 @@ use Illuminate\Support\ServiceProvider;
 use Raul3k\BlockDisposable\Core\DisposableEmailChecker;
 use Raul3k\BlockDisposable\Core\DisposableEmailCheckerBuilder;
 use Raul3k\DisposableBlocker\Laravel\Cache\LaravelCacheAdapter;
-use Raul3k\DisposableBlocker\Laravel\Checkers\EloquentChecker;
+use Raul3k\DisposableBlocker\Laravel\Checkers\DatabaseChecker;
 use Raul3k\DisposableBlocker\Laravel\Console\ImportDomainsCommand;
 use Raul3k\DisposableBlocker\Laravel\Console\ListSourcesCommand;
 use Raul3k\DisposableBlocker\Laravel\Console\UpdateDomainsCommand;
@@ -68,19 +68,16 @@ class DisposableBlockerServiceProvider extends ServiceProvider
 
         // Add checkers based on configuration
         match ($checkerType) {
-            'database' => $builder->withChecker($this->createEloquentChecker($config)),
-            'pattern' => null, // Pattern detection added below if enabled
+            'database' => $builder->withChecker($this->createDatabaseChecker($config)),
             'chain' => $this->addChainCheckers($builder, $config),
-            default => null, // File checker added via bundled list
+            default => null,
         };
 
-        // Add bundled list if enabled
         if ($config['use_bundled_list'] ?? true) {
             $builder->withBundledDomains();
         }
 
-        // Add pattern detection if enabled
-        if ($config['pattern_detection'] ?? false) {
+        if ($checkerType === 'pattern' || ($config['pattern_detection'] ?? false)) {
             $builder->withPatternDetection();
         }
 
@@ -105,11 +102,11 @@ class DisposableBlockerServiceProvider extends ServiceProvider
      *
      * @param array<string, mixed> $config
      */
-    private function createEloquentChecker(array $config): EloquentChecker
+    private function createDatabaseChecker(array $config): DatabaseChecker
     {
         $dbConfig = $config['database'] ?? [];
 
-        return new EloquentChecker(
+        return new DatabaseChecker(
             table: $dbConfig['table'] ?? 'disposable_domains',
             connection: $dbConfig['connection'] ?? null
         );
@@ -126,7 +123,7 @@ class DisposableBlockerServiceProvider extends ServiceProvider
 
         // When using chain mode, add both database and file checkers
         if (!empty($dbConfig['table'])) {
-            $builder->withChecker($this->createEloquentChecker($config));
+            $builder->withChecker($this->createDatabaseChecker($config));
         }
     }
 

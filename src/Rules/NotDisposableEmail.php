@@ -24,8 +24,7 @@ class NotDisposableEmail implements ValidationRule
 {
     public function __construct(
         private readonly ?string $message = null
-    ) {
-    }
+    ) {}
 
     /**
      * Run the validation rule.

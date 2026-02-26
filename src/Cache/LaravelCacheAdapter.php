@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Raul3k\DisposableBlocker\Laravel\Cache;
 
+use BadMethodCallException;
 use Illuminate\Contracts\Cache\Repository;
 use Raul3k\BlockDisposable\Core\Cache\CacheInterface;
 
@@ -15,8 +16,7 @@ class LaravelCacheAdapter implements CacheInterface
     public function __construct(
         private readonly Repository $cache,
         private readonly string $prefix = 'disposable_email:'
-    ) {
-    }
+    ) {}
 
     public function get(string $key): mixed
     {
@@ -44,9 +44,8 @@ class LaravelCacheAdapter implements CacheInterface
 
     public function clear(): bool
     {
-        /** @var \Illuminate\Cache\Repository $cache */
-        $cache = $this->cache;
-
-        return $cache->getStore()->flush();
+        throw new BadMethodCallException(
+            'clear() is not supported on Laravel cache adapter because it would flush the entire cache store.'
+        );
     }
 }

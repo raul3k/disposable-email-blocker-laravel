@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `DisposableBlockerServiceProvider` with singleton registration and lazy initialization
 - `DisposableEmail` facade for static API access
 - `NotDisposableEmail` validation rule for Laravel form requests
-- `EloquentChecker` for database-backed domain lookups
+- `DatabaseChecker` for database-backed domain lookups
 - `LaravelCacheAdapter` bridging Laravel cache to core `CacheInterface`
 - `DisposableDomain` Eloquent model with configurable table and connection
 - Migration for `disposable_domains` table

@@ -70,41 +70,40 @@ class ImportDomainsCommand extends Command
         }
 
         try {
-            $domains = [...$source->fetch()];
-            $count = count($domains);
+            $inserted = 0;
+            $chunk = [];
 
-            if ($count === 0) {
+            foreach ($source->fetch() as $domain) {
+                $chunk[] = [
+                    'domain' => strtolower(trim($domain)),
+                    'source' => $sourceName,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+
+                if (count($chunk) >= $chunkSize) {
+                    DB::connection($connection)
+                        ->table($table)
+                        ->upsert($chunk, ['domain'], ['source', 'updated_at']);
+
+                    $inserted += count($chunk);
+                    $chunk = [];
+                }
+            }
+
+            if ($chunk !== []) {
+                DB::connection($connection)
+                    ->table($table)
+                    ->upsert($chunk, ['domain'], ['source', 'updated_at']);
+
+                $inserted += count($chunk);
+            }
+
+            if ($inserted === 0) {
                 $this->warn('No domains found in source.');
 
                 return self::SUCCESS;
             }
-
-            $this->line("  Found <info>{$count}</info> domains.");
-
-            $bar = $this->output->createProgressBar(count($domains));
-            $bar->start();
-
-            $inserted = 0;
-            foreach (array_chunk($domains, $chunkSize) as $chunk) {
-                $data = array_map(function (string $domain) use ($sourceName): array {
-                    return [
-                        'domain' => strtolower(trim($domain)),
-                        'source' => $sourceName,
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ];
-                }, $chunk);
-
-                DB::connection($connection)
-                    ->table($table)
-                    ->upsert($data, ['domain'], ['source', 'updated_at']);
-
-                $inserted += count($chunk);
-                $bar->advance(count($chunk));
-            }
-
-            $bar->finish();
-            $this->newLine(2);
 
             $this->info("Successfully imported {$inserted} domains from {$sourceName}.");
 

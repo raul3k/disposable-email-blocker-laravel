@@ -8,18 +8,17 @@ use Illuminate\Support\Facades\DB;
 use Raul3k\BlockDisposable\Core\Checkers\CheckerInterface;
 
 /**
- * Eloquent/Query Builder based checker for disposable domains.
+ * Database checker for disposable domains.
  *
- * Uses Laravel's database layer to check if a domain exists
+ * Uses Laravel's Query Builder to check if a domain exists
  * in the disposable domains table.
  */
-class EloquentChecker implements CheckerInterface
+class DatabaseChecker implements CheckerInterface
 {
     public function __construct(
         private readonly string $table = 'disposable_domains',
         private readonly ?string $connection = null
-    ) {
-    }
+    ) {}
 
     /**
      * Check if the given domain is in the disposable domains table.

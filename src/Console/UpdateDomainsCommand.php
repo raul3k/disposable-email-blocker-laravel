@@ -63,33 +63,38 @@ class UpdateDomainsCommand extends Command
             $this->line("  Fetching from <info>{$name}</info>...");
 
             try {
-                $domains = [...$source->fetch()];
-                $count = count($domains);
+                $inserted = 0;
+                $chunk = [];
 
-                if ($count === 0) {
-                    $this->warn("    No domains found.");
-                    continue;
+                foreach ($source->fetch() as $domain) {
+                    $chunk[] = [
+                        'domain' => strtolower(trim($domain)),
+                        'source' => $name,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+
+                    if (count($chunk) >= $chunkSize) {
+                        DB::connection($connection)
+                            ->table($table)
+                            ->upsert($chunk, ['domain'], ['source', 'updated_at']);
+
+                        $inserted += count($chunk);
+                        $chunk = [];
+                    }
                 }
 
-                $this->line("    Found <info>{$count}</info> domains.");
-
-                // Insert in chunks
-                $inserted = 0;
-                foreach (array_chunk($domains, $chunkSize) as $chunk) {
-                    $data = array_map(function (string $domain) use ($name): array {
-                        return [
-                            'domain' => strtolower(trim($domain)),
-                            'source' => $name,
-                            'created_at' => now(),
-                            'updated_at' => now(),
-                        ];
-                    }, $chunk);
-
+                if ($chunk !== []) {
                     DB::connection($connection)
                         ->table($table)
-                        ->upsert($data, ['domain'], ['source', 'updated_at']);
+                        ->upsert($chunk, ['domain'], ['source', 'updated_at']);
 
                     $inserted += count($chunk);
+                }
+
+                if ($inserted === 0) {
+                    $this->warn("    No domains found.");
+                    continue;
                 }
 
                 $this->line("    Imported <info>{$inserted}</info> domains.");
