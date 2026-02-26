@@ -1,0 +1,74 @@
+{
+    "name": "raul3k/disposable-email-blocker-laravel",
+    "description": "Laravel integration for disposable email detection",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Raul",
+            "homepage": "https://github.com/raul3k"
+        }
+    ],
+    "keywords": [
+        "laravel",
+        "disposable",
+        "email",
+        "temporary",
+        "validation",
+        "spam",
+        "burner",
+        "throwaway",
+        "tempmail"
+    ],
+    "require": {
+        "php": "^8.1",
+        "raul3k/disposable-email-blocker-core": "^1.0",
+        "illuminate/support": "^10.0|^11.0|^12.0",
+        "illuminate/database": "^10.0|^11.0|^12.0",
+        "illuminate/validation": "^10.0|^11.0|^12.0",
+        "illuminate/console": "^10.0|^11.0|^12.0",
+        "illuminate/cache": "^10.0|^11.0|^12.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "orchestra/testbench": "^8.0|^9.0|^10.0",
+        "phpstan/phpstan": "^1.10",
+        "phpunit/phpunit": "^10.0|^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Raul3k\\DisposableBlocker\\Laravel\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Raul3k\\DisposableBlocker\\Laravel\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Raul3k\\DisposableBlocker\\Laravel\\DisposableBlockerServiceProvider"
+            ],
+            "aliases": {
+                "DisposableEmail": "Raul3k\\DisposableBlocker\\Laravel\\Facades\\DisposableEmail"
+            }
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:coverage": "phpunit --coverage-html coverage",
+        "analyse": "phpstan analyse",
+        "cs:check": "php-cs-fixer fix --dry-run --diff",
+        "cs:fix": "php-cs-fixer fix",
+        "quality": [
+            "@cs:check",
+            "@analyse",
+            "@test"
+        ]
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable"
+}
