@@ -72,18 +72,22 @@ chore(deps): update dependencies
 
 ## Development Setup
 
-<!-- Add your project-specific setup instructions here -->
-
 ```bash
 # Clone the repository
-git clone <repository-url>
-cd <repository-name>
+git clone https://github.com/raul3k/disposable-email-blocker-laravel.git
+cd disposable-email-blocker-laravel
 
 # Install dependencies
-# ...
+composer install
 
 # Run tests
-# ...
+composer test
+
+# Run static analysis
+composer analyse
+
+# Run code style check
+composer cs:check
 ```
 
 ## Questions?
