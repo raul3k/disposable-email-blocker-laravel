@@ -64,7 +64,7 @@ class UpdateDomainsCommandTest extends TestCase
     {
         $this->artisan('disposable:update', ['--source' => 'nonexistent-source'])
             ->expectsOutputToContain('not found')
-            ->assertExitCode(0);
+            ->assertExitCode(1);
     }
 
     public function testCommandWithCustomChunkSize(): void
