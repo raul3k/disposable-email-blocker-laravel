@@ -57,10 +57,13 @@ class UpdateDomainsCommand extends Command
         $this->newLine();
 
         $totalImported = 0;
+        $hasErrors = false;
+        $now = now();
 
         foreach ($sources as $name) {
             if (!$this->registry->has($name)) {
                 $this->error("Source '{$name}' not found.");
+                $hasErrors = true;
                 continue;
             }
 
@@ -75,8 +78,8 @@ class UpdateDomainsCommand extends Command
                     $chunk[] = [
                         'domain' => strtolower(trim($domain)),
                         'source' => $name,
-                        'created_at' => now(),
-                        'updated_at' => now(),
+                        'created_at' => $now,
+                        'updated_at' => $now,
                     ];
 
                     if (count($chunk) >= $chunkSize) {
@@ -106,6 +109,7 @@ class UpdateDomainsCommand extends Command
                 $totalImported += $inserted;
             } catch (Throwable $e) {
                 $this->error("    Failed: {$e->getMessage()}");
+                $hasErrors = true;
             }
         }
 
@@ -115,6 +119,6 @@ class UpdateDomainsCommand extends Command
         $totalInDb = DB::connection($connection)->table($table)->count();
         $this->info("Total unique domains in database: {$totalInDb}");
 
-        return self::SUCCESS;
+        return $hasErrors ? self::FAILURE : self::SUCCESS;
     }
 }

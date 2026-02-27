@@ -76,13 +76,14 @@ class ImportDomainsCommand extends Command
         try {
             $inserted = 0;
             $chunk = [];
+            $now = now();
 
             foreach ($source->fetch() as $domain) {
                 $chunk[] = [
                     'domain' => strtolower(trim($domain)),
                     'source' => $sourceName,
-                    'created_at' => now(),
-                    'updated_at' => now(),
+                    'created_at' => $now,
+                    'updated_at' => $now,
                 ];
 
                 if (count($chunk) >= $chunkSize) {

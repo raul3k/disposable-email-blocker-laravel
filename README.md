@@ -9,7 +9,7 @@ Laravel integration for disposable/temporary email detection. Built on top of [`
 - **Database Checker** - Store and manage disposable domains in your database
 - **Artisan Commands** - Update domains from multiple sources
 - **Laravel Cache Integration** - Redis, File, Database, or any Laravel cache driver
-- **Auto-discovery** - Works out of the box with Laravel 10, 11, and 12
+- **Auto-discovery** - Works out of the box with Laravel 11 and 12
 
 ## Installation
 
@@ -141,11 +141,6 @@ return [
     'database' => [
         'table' => 'disposable_domains',
         'connection' => null,
-    ],
-
-    // Validation messages
-    'messages' => [
-        'default' => 'Disposable email addresses are not allowed.',
     ],
 ];
 ```
