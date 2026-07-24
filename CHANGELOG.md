@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/raul3k/disposable-email-blocker-laravel/compare/v1.0.0...v2.0.0) (2026-07-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* require Laravel 12, drop EOL Laravel 11 support ([#11](https://github.com/raul3k/disposable-email-blocker-laravel/issues/11))
+
+### Features
+
+* require Laravel 12, drop EOL Laravel 11 support ([#11](https://github.com/raul3k/disposable-email-blocker-laravel/issues/11)) ([de4e6d1](https://github.com/raul3k/disposable-email-blocker-laravel/commit/de4e6d11e24e774767aabc3d7bbc1cfabbe78f5a))
+
 ## 1.0.0 (2026-02-27)
 
 
