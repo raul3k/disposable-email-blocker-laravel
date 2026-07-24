@@ -28,15 +28,15 @@
     "require": {
         "php": "^8.2",
         "raul3k/disposable-email-blocker-core": "^1.0",
-        "illuminate/support": "^11.0|^12.0",
-        "illuminate/database": "^11.0|^12.0",
-        "illuminate/validation": "^11.0|^12.0",
-        "illuminate/console": "^11.0|^12.0",
-        "illuminate/cache": "^11.0|^12.0"
+        "illuminate/support": "^12.0",
+        "illuminate/database": "^12.0",
+        "illuminate/validation": "^12.0",
+        "illuminate/console": "^12.0",
+        "illuminate/cache": "^12.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.0",
-        "orchestra/testbench": "^9.6|^10.0",
+        "orchestra/testbench": "^10.0",
         "phpstan/phpstan": "^1.10",
         "phpunit/phpunit": "^10.0|^11.0"
     },
