@@ -1,3 +1,7 @@
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/raul3k/disposable-email-blocker-laravel.svg?style=flat-square)](https://packagist.org/packages/raul3k/disposable-email-blocker-laravel)
+[![Total Downloads](https://img.shields.io/packagist/dt/raul3k/disposable-email-blocker-laravel.svg?style=flat-square)](https://packagist.org/packages/raul3k/disposable-email-blocker-laravel)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/raul3k/disposable-email-blocker-laravel/ci.yml?branch=main&label=CI&style=flat-square)](https://packagist.org/packages/raul3k/disposable-email-blocker-laravel)
+[![License](https://img.shields.io/packagist/l/raul3k/disposable-email-blocker-laravel.svg?style=flat-square)](LICENSE)
 # Disposable Email Blocker for Laravel
 
 Laravel integration for disposable/temporary email detection. Built on top of [`raul3k/disposable-email-blocker-core`](https://github.com/raul3k/disposable-email-blocker-core).
@@ -198,6 +202,7 @@ The package can fetch domains from multiple sources:
 | `mailchecker` | FGRibreau's mailchecker list |
 | `ivolo-disposable` | Ivolo's disposable domains |
 | `fakefilter` | 7c/fakefilter list |
+| `disposable/disposable` | disposable/disposable repo list |
 
 ## Testing
 
